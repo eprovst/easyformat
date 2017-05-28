@@ -1,0 +1,44 @@
+% !TeX spellcheck = en_GB
+\documentclass[11pt]{article}
+\usepackage[british]{babel}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage{easyformat}
+\usepackage[a4paper]{geometry}
+
+\def\labelitemi{--}
+\makeatletter
+\title{\texttt{easyformat}, _tests_\\$$ \int_a^b \mathrm{d}x = b - a $$}
+\author{Evert Provoost}
+\date{28th May 2017}
+
+\disableeasyformat % To test correct placement of \enableeasyformat in the source.
+				   % Not necessary.
+
+\begin{document}
+
+	\enableeasyformat % We disabled it earlier to test so now we re-enable it.
+					  % It should still work without the disabling and this.
+
+	\maketitle
+	\tableofcontents
+	\vspace{2em}
+
+	\section{Main test}
+	These two should be identical and definitely have the exact same length:
+
+	$|$ \textit{Lorem \textbf{ipsum}}\textbf{ totalem} \textsc{da} \textbf{givea \textit{zin} doram} \textit{zet}tim, liefkan. $|$
+
+	$|$ _Lorem __ipsum_ totalem__ ^da^ __givea _zin_ doram__ _zet_tim, liefkan. $|$
+
+	\section{_Math_, $\_ u_nd_er_sc_or_es$ and $\cir c^ir^co^nf^le^xe^s$\dots}
+	This ($\uparrow$ Easy Formatting inside subtitles) is possible without some extra code since v1.1.0~(2017/04/09) and having a \cir\ in mathmode since v1.3.0~(2017/05/28).
+	
+	$$ \int_a^b x\,\mathrm{d}x = \frac{b^2 - a^2}{2} $$
+	
+	\section{Mixing _styles_}
+	^Yeah, _yeah?,_ yeah!!!^
+	$\leftarrow$ notice how we go from ^smallcaps^ to _italics_ and back to ^smallcaps^? This is possible since v1.2.0 (2017/04/17).
+
+\end{document}

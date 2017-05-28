@@ -1,0 +1,48 @@
+%% In \EFOR@handle@italic
+%  If \nrshape would have unwanted sideeffects we could switch to this:
+\normalfont%
+\ifbool{EFOR@bool@bold}
+	{\bfseries}
+	{}\maybe@ic%
+
+
+%% In \EFOR@handle@bold
+%  If \nrseries would have unwanted sideeffects we could switch to this:
+\normalfont%
+\ifbool{EFOR@bool@italic}
+	{\itshape}
+	{}%
+
+%% Why \normalfont and not \rm?
+%      Because, for example, the memoir class shouts at you if you do so.
+%      And for good reason because \rm resets everything not only shape and series.
+
+%% Pre v1.1.0 code extract:
+\RequirePackage{etoolbox}[2007/07/13]
+
+% ... %
+
+% Keep track of the formatting.
+\providebool{EFOR@bool@italic}
+\providebool{EFOR@bool@bold}
+
+% ... %
+
+% Switch italics on or off.
+\newcommand*{\EFOR@handle@italic}{%
+	\notbool{EFOR@bool@italic}
+	{\global\booltrue{EFOR@bool@italic}\itshape}
+	% \maybe@ic adds italics correction if needed.
+	% (might stop working in LaTeX3?)
+	{\global\boolfalse{EFOR@bool@italic}\nrshape\maybe@ic}%
+}
+
+% ... %
+
+% Switch boldface on or off.
+\newcommand*{\EFOR@handle@bold}{%
+	\notbool{EFOR@bool@bold}
+	{\global\booltrue{EFOR@bool@bold}\bfseries}
+	{\global\boolfalse{EFOR@bool@bold}\nrseries}%
+}
+

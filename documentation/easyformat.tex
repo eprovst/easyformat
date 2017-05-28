@@ -1,0 +1,216 @@
+% !TeX spellcheck = en_GB
+
+\documentclass[a4paper, 11pt]{article}
+\usepackage[british]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage{easyformat}
+
+\def\labelitemi{--}
+
+\def\easyformat{\texttt{easyformat}}
+
+\title{\easyformat\\[.5em]
+		\large _the_ manual for the 2017/05/28 version (v1.3.0)}
+
+\author{Evert Provoost}
+
+\date{}
+
+\begin{document}
+
+	\maketitle
+	
+	\begin{abstract}
+		\easyformat\ is a package that allows the use of~\verb|_| to begin/end _italic_ or __bold__ and \verb|^| to begin/end ^smallcaps^. As an alternative to the standard \LaTeX\ \verb|\textit{italic}|, \verb|\textbf{bold}| and \verb|\textsc{smallcaps}|.
+	\end{abstract}
+
+	\tableofcontents
+	\newpage
+	
+	%% NOT NEEDED.
+	% Insert a blank page.
+	%\null % The page has to contain 'something'.
+	%\thispagestyle{empty} % Hide the pagenumber.
+	%\addtocounter{page}{-1} % So the next doesn't turn 3.
+	%\newpage
+	
+	\section{Introduction}
+	Usually when you want to make something _italic_ or __bold__ in \LaTeX\ you insert \verb|\textit{italic}| or \verb|\textbf{bold}| respectively.
+	
+	However when writing a book or another text where this formatting is common, this quickly becomes annoying to type.
+
+	\begin{quote}
+	__Quick disclaimer:__\\
+	I'm not saying that the \LaTeX\ way is bad. I just want to explain that it's not ideal under all circumstances.
+	\end{quote}
+	
+	Simple markuplanguages (eg. Markdown) have a more elegant solution.	
+	If you, for example, wanted to write:
+	\begin{quote}
+		__Stop!__, you _have_ to wait!
+	\end{quote}
+
+	In Markdown, you'd type:
+	\begin{quote}
+		\verb|**Stop!**, you *have* to wait!|
+	\end{quote}
+
+	As you can see it's a matter of _wanting_ italic or bold formatting, adding~*'s where needed and done; no (long) macros to type.
+	
+	With the help of \easyformat\ we can do something similar, here we get the same result with:
+	\begin{quote}
+		\verb|__Stop!__, you _have_ to wait!|
+	\end{quote}
+	
+	(Why underscores? See: \ref{Why?!})\\
+	
+	And since it is good practice to add abbreviations using ^smallcaps^, \easyformat\ gives you \verb|^smallcaps^|.
+	
+	So:
+	\begin{quote}
+		\verb|^nasa^ and ^esa^ are probably the best known space agencies.|
+	\end{quote}
+
+	Results in:
+	\begin{quote}
+		^nasa^ and ^esa^ are probably the best known space agencies.
+	\end{quote}
+	
+	\section{Usage, syntax and examples}
+	Like usual you import the package with: \verb|\usepackage{easyformat}|
+
+	\easyformat\ makes \verb|_| an active character, however it was already `special' before so you still have to type~\verb|\_| if you want to insert an underscore.
+	
+	The same can be said of \verb|^|, however since this one is difficult to add in ordinary \LaTeX, the \easyformat\ package gives you \verb|\cir| to get \cir.
+	
+	\newpage
+
+	As already said, \easyformat\ uses a Markdown-like syntax, so:
+	
+	\begin{quote}
+		\verb|_italic,_ __bold,__, ___bolditalic___ and ^smallcaps!^|
+	\end{quote}
+
+	Gives:
+	\begin{quote}
+		_italic,_ __bold,__, ___bolditalic___ and ^smallcaps!^
+	\end{quote}
+
+	However we can also do more complex stuff, eg.:
+	\begin{quote}
+		\verb|_Lorem __ipsum_ totalem__ ^da^ __givea _zin_ doram__ _zet_tim, liefkan.|
+	\end{quote}
+	
+	Becomes:
+	\begin{quote}
+		_Lorem __ipsum_ totalem__ ^da^ __givea _zin_ doram__ _zet_tim, liefkan.
+	\end{quote}
+
+	Those with a good eye might have noticed that \easyformat\ adds italics correction when needed. Just like \verb|\textit{zet}tim| would have.
+	
+	\section{Troubleshooting}
+	\easyformat\ tends to conflict with the loading of other packages, therefore you should probably load \easyformat\ last.
+	
+	\begin{quotation}
+		``For some or other reason I get some weird formatting\dots''
+	\end{quotation}
+
+	It could be a bug---in which case I'd love to hear from you (see \ref{contact})---however, you probably forgot to close your formatting somewhere and because of how \easyformat\ works you can get weird results.
+
+	%__Explanation:__ when you start eg. _italics_ with \verb|_|, \easyformat\ %remembers the shape (the same is true for ^smallcaps^, when you %start __boldface__ it remembers the series) of the font. When you %get out of _italics_, it resets the shape (respectively the series) %to what it was before the starting the formatting.
+
+
+	%% This is solved in version 2017/04/09 v1.1.0
+	%\subsection{Underscore in subtitles\label{undtitles}}
+	%If you ever try something similar to \verb|\section{__Vectors:__ %$\vec{F}_g$}|: \TeX\ will shout at you. Why? I don't really know. However I %do know how to fix this. If we want to get the previous example we would use:
+	
+	%\begin{quote}
+	%	\verb|\setundsub|\\
+	%	% Yeah there's a glitch were the first is indented slightly more
+	%	% unless there is something before the next lines......
+	%	\hspace*{0pt}\verb|\section{$\textbf{Vectors:} \vec{F}_g$}|\\
+	%	\hspace*{0pt}\verb|\setundact|
+	%\end{quote}
+	
+	%This first resets the \verb|_| character so it can only be used as the start of %subscripts; then adds the subtitle and afterwards re-initiates \verb|_| for %__bold__ and _italic_. (Obviously the \easyformat\ syntax does not work %_in_ the subtitle, so you'll have to use the \LaTeX-commands.)
+	
+	\section{Macros}
+	\subsection{Special characters}
+	\noindent\fbox{\texttt{\textbackslash cir}}
+	Insert a circumflex (\cir) character.
+
+	\subsection{Fonts}
+	\noindent\fbox{\texttt{\textbackslash nrfamily}}
+	Reverts the fontfamily to the default.\\
+
+	\noindent\fbox{\texttt{\textbackslash nrshape}}
+	Reverts the fontshape to the default.\\
+
+	\noindent\fbox{\texttt{\textbackslash nrseries}}
+	Reverts the fontseries to the default.\\
+
+	\noindent\fbox{\texttt{\textbackslash setffamily\{_fontfamily_\}}}
+	Quickly change the fontfamily.\\
+
+	\noindent\fbox{\texttt{\textbackslash setfshape\{_fontshape_\}}}
+	Quickly change the fontshape.\\
+
+	\noindent\fbox{\texttt{\textbackslash setfseries\{_fontseries_\}}}
+	Quickly change the fontseries.
+	
+	\subsection{\easyformat\ syntax}
+	\noindent\fbox{\texttt{\textbackslash enableeasyformat}}
+	Enables the \easyformat\ syntax.\\
+	
+	\noindent\fbox{\texttt{\textbackslash disableeasyformat}}
+	Disables the \easyformat\ syntax.\\
+	
+	\noindent\fbox{\texttt{\textbackslash setciract}}
+	Sets the catcode of \verb|^| to 13 (active).\\
+	
+	\noindent\fbox{\texttt{\textbackslash setcirsup}}
+	Sets the catcode of \verb|^| to 7 (superscript).\\
+	
+	\noindent\fbox{\texttt{\textbackslash setundact}}
+	Sets the catcode of \verb|_| to 13 (active).\\
+	
+	\noindent\fbox{\texttt{\textbackslash setundsub}}
+	Sets the catcode of \verb|_| to 8 (subscript).
+	
+	\section{Technical details}
+	\subsection{Why \texttt{\_} and not *?\label{Why?!}}
+	To make * work we would have to make it an active character, however this would break things like \verb|\section*{Art}|. The~\verb|_| is already protected by \TeX\ because of it's meaning in mathmode. However, it has little to no use in textmode. This is why we can use~\verb|_| for this purpose and not~*.
+	
+	\subsection{Does this break mathmode?}
+	No it doesn't. It keeps behaving like before in mathmode, it's meaning only changes in textmode. (We first check whether we are in mathmode or not and behave accordingly.)
+
+	\section{Contact\label{contact}}
+	If you want to make suggestions or have any questions whose answer could be included in a future version of this document, you can email to this address: \url{mailto:evert.provoost@gmail.com}
+	\newpage
+	
+	\section{Changelog}
+	We only include important changes from v1.0.0 onwards, since earlier versions barely worked.
+
+	\subsection*{2017/05/28 v1.3.0}
+	Removed forced re-enabling of the \easyformat-syntax at the start of the document.
+	Rewritten to use \texttt{expl3}, this makes the code shorter and a future move to \LaTeX3 easier.
+	Fixed an error that could occur with \verb|\cir|.
+	\easyformat\ now also behaves correctly when a fontpackage is loaded.
+
+	\subsection*{2017/04/17 v1.2.0}
+	Improved handling of mixed styles.
+	Added \verb|^smallcaps^| for ^smallcaps^.
+
+	\subsection*{2017/04/09 v1.1.0}
+	Made usage of syntax in \verb|\section{}|, and similar macros, possible. Changed the behaviour so it works more like \verb|\emph{}| (this also simplifies the code).
+
+	\subsection*{2017/04/07 v1.0.0}
+	First stable version.
+
+	% Insert a friendly message :)
+	\vspace*{\fill}\noindent
+	Made with $\heartsuit$ in Berlaar, Belgium.
+	\clearpage
+
+\end{document}

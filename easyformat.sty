@@ -109,58 +109,58 @@
 
 %% Constants & Variables
 % Yes I could use \sb and \sp but those are dependencies...
-\tl_const:Nx \EFOR@subscript   {\char_generate:nn {`_} {8}}
-\tl_const:Nx \EFOR@superscript {\char_generate:nn {`^} {7}}
+\tl_const:Nx \@subscript   {\char_generate:nn {`_} {8}}
+\tl_const:Nx \@superscript {\char_generate:nn {`^} {7}}
 
 % Remember the style before changing to italics/boldface/smallcaps.
-\str_new:N \EFOR@prev@shape
-\str_set:Nx \EFOR@prev@shape  {\shapedefault}  % Used by italics.
+\str_new:N \@prev@shape
+\str_set:Nx \@prev@shape {\shapedefault}
 
-\str_new:N \EFOR@prev@case
-\str_set:Nx \EFOR@prev@case  {\shapedefault}  % Used by smallcaps.
+\str_new:N \@prev@case
+\str_set:Nx \@prev@case {\shapedefault}
 % Case is the option used in XFSS, however in LaTeX2e's NFSS,
 % smallcaps is a kind of shape.
 
-\str_new:N \EFOR@prev@series
-\str_set:Nx \EFOR@prev@series {\seriesdefault} % Used by boldface.
+\str_new:N \@prev@series
+\str_set:Nx \@prev@series {\seriesdefault}
 
 
 %% Formating handling
 % Switch italics on or off.
-\cs_new:Npn \EFOR@handle@italics {
+\cs_new:Npn \@handle@italics {
 	\str_if_eq:NNTF \f@shape \itdefault
 	{
-		\setfshape {\EFOR@prev@shape}
-		\str_set:Nx \EFOR@prev@shape {\shapedefault}
+		\setfshape {\@prev@shape}
+		\str_set:Nx \@prev@shape {\shapedefault}
 		% \maybe@ic adds italics correction if needed.
 		% (might stop working in LaTeX3?)
 		\maybe@ic
 	}{
-		\str_set:Nx \EFOR@prev@shape {\f@shape}
+		\str_set:Nx \@prev@shape {\f@shape}
 		\itshape
 	}
 }
 
 % Switch smallcaps on or off.
-\cs_new:Npn \EFOR@handle@smallcaps {
+\cs_new:Npn \@handle@smallcaps {
 	\str_if_eq:NNTF \f@shape \scdefault
 	{
-		\setfshape {\EFOR@prev@case}
-		\str_set:Nx \EFOR@prev@case {\shapedefault}
+		\setfshape {\@prev@case}
+		\str_set:Nx \@prev@case {\shapedefault}
 	}{
-		\str_set:Nx \EFOR@prev@case {\f@shape}
+		\str_set:Nx \@prev@case {\f@shape}
 		\scshape
 	}
 }
 
 % Switch boldface on or off.
-\cs_new:Npn \EFOR@handle@boldface {
+\cs_new:Npn \@handle@boldface {
 	\str_if_eq:NNTF \f@series \bfdefault
 	{
-		\setfseries {\EFOR@prev@series}
-		\str_set:Nx \EFOR@prev@series {\seriesdefault}
+		\setfseries {\@prev@series}
+		\str_set:Nx \@prev@series {\seriesdefault}
 	}{
-		\str_set:Nx \EFOR@prev@series {\f@series}
+		\str_set:Nx \@prev@series {\f@series}
 		\bfseries
 	}
 }
@@ -191,18 +191,18 @@
 
 	\protected\def_{%
 		\@mode@if@math
-			{\EFOR@subscript}
-			{\@peek@meaning@remove_
-				% The second underscore is removed when true.
-				{\EFOR@handle@boldface}
-				{\EFOR@handle@italics}%
+			{\@subscript}
+			{\@peek@meaning@remove _
+				% The second underscore is removed when detected.
+				{\@handle@boldface}
+				{\@handle@italics}%
 			}%
 	}
 
 	\protected\def^{%
 		\@mode@if@math
-			{\EFOR@superscript}
-			{\EFOR@handle@smallcaps}%
+			{\@superscript}
+			{\@handle@smallcaps}%
 	}
 }
 

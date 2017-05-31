@@ -35,128 +35,138 @@
 %% Administration...
 \RequirePackage{expl3}[2015/11/11]
 \ProvidesExplPackage
-	{easyformat}
-	{2017/05/31}
-	{1.3.1}
-	{Easily add boldface, italics and smallcaps.}
+  {easyformat}
+  {2017/05/31}
+  {1.3.1}
+  {Easily add boldface, italics and smallcaps.}
 
 
 %% Public macros
 % Add macros to switch the syntax on or off.
-\cs_new:Npn \setundact {
-	\char_set_catcode_active:N \_
-}
+\cs_new:Npn \setundact
+  { \char_set_catcode_active:N {\_} }
 
-\cs_new:Npn \setundsub {
-	\char_set_catcode_math_subscript:N \_
-}
+\cs_new:Npn \setundsub
+  { \char_set_catcode_math_subscript:N {\_} }
 
-\cs_new:Npn \setciract {
-	\char_set_catcode_active:N \^
-}
+\cs_new:Npn \setciract
+  { \char_set_catcode_active:N {\^} }
 
-\cs_new:Npn \setcirsup {
-	\char_set_catcode_math_superscript:N \^
-}
+\cs_new:Npn \setcirsup
+  { \char_set_catcode_math_superscript:N {\^} }
 
-\cs_new:Npn \enableeasyformat {
-	\setundact
-	\setciract
-}
+\cs_new:Npn \enableeasyformat
+  {
+    \setundact
+    \setciract
+  }
 
-\cs_new:Npn \disableeasyformat {
-	\setundsub
-	\setcirsup
-}
+\cs_new:Npn \disableeasyformat
+  {
+    \setundsub
+    \setcirsup
+  }
 
 % Add macros which change the fontshape, fontseries and fontfamily.
-\cs_new:Npn \setffamily #1 {
-	\fontfamily #1
-	\selectfont
-}
+\cs_new:Npn \setffamily #1
+  {
+    \fontfamily {#1}
+    \selectfont
+  }
 
-\cs_new:Npn \setfshape #1 {
-	\fontshape #1
-	\selectfont
-}
+\cs_new:Npn \setfshape #1
+  {
+    \fontshape {#1}
+    \selectfont
+  }
 
-\cs_new:Npn \setfseries #1 {
-	\fontseries #1
-	\selectfont
-}
+\cs_new:Npn \setfseries #1
+  {
+    \fontseries {#1}
+    \selectfont
+  }
 
 % Add some macros which do small parts of what \normalfont does.
 % Were needed in v1.1.0 but let's keep them because they are useful :)
-\cs_new:Npn \nrfamily {
-	\setffamily \familydefault
-}
+\cs_new:Npn \nrfamily
+  {
+    \setffamily {\familydefault}
+  }
 
-\cs_new:Npn \nrshape {
-	\setfshape \shapedefault
-}
+\cs_new:Npn \nrshape
+  {
+    \setfshape {\shapedefault}
+  }
 
-\cs_new:Npn \nrseries {
-	\setfseries \seriesdefault
-}
+\cs_new:Npn \nrseries
+  {
+    \setfseries {\seriesdefault}
+  }
 
 % Add a macro LaTeX should have...
-% Is protected to fix the double superscript error.
-\cs_new_protected:Npn \cir { \c_circumflex_str }
+% Which is protected to fix the double superscript error.
+\cs_new_protected:Npn \cir {\c_circumflex_str}
 
 
-%% Constants & Variables
+%% Variables
 % Remember the style before changing to italics/boldface/smallcaps.
 \str_new:N \@prev@shape
-\str_set:Nx \@prev@shape \shapedefault
+\str_set:Nx \@prev@shape {\shapedefault}
 
 \str_new:N \@prev@case
-\str_set:Nx \@prev@case \shapedefault
+\str_set:Nx \@prev@case {\shapedefault}
 % Case is the option used in XFSS, however in LaTeX2e's NFSS,
 % smallcaps is a kind of shape.
 
 \str_new:N \@prev@series
-\str_set:Nx \@prev@series \seriesdefault
+\str_set:Nx \@prev@series {\seriesdefault}
 
 
 %% Formating handling
 % Switch italics on or off.
-\cs_new:Npn \@handle@italics {
-	\str_if_eq:NNTF \f@shape \itdefault
-	{
-		\setfshape \@prev@shape
-		\str_set:Nx \@prev@shape \shapedefault
-		% \maybe@ic adds italics correction if needed.
-		% Probably becomes \xfss_maybe_ic: in LaTeX3.
-		\maybe@ic
-	} {
-		\str_set:Nx \@prev@shape \f@shape
-		\itshape
-	}
-}
+\cs_new:Npn \@handle@italics
+  {
+    \str_if_eq:NNTF {\f@shape} {\itdefault}
+      {
+        \setfshape {\@prev@shape}
+        \str_set:Nx \@prev@shape {\shapedefault}
+        % \maybe@ic adds italics correction if needed.
+        % Probably becomes \xfss_maybe_ic: in LaTeX3.
+        \maybe@ic
+      }
+      {
+        \str_set:Nx \@prev@shape {\f@shape}
+        \itshape
+      }
+  }
 
 % Switch smallcaps on or off.
-\cs_new:Npn \@handle@smallcaps {
-	\str_if_eq:NNTF \f@shape \scdefault
-	{
-		\setfshape \@prev@case
-		\str_set:Nx \@prev@case \shapedefault
-	} {
-		\str_set:Nx \@prev@case \f@shape
-		\scshape
-	}
-}
+\cs_new:Npn \@handle@smallcaps
+  {
+    \str_if_eq:NNTF {\f@shape} {\scdefault}
+      {
+        \setfshape {\@prev@case}
+        \str_set:Nx \@prev@case {\shapedefault}
+      }
+      {
+        \str_set:Nx \@prev@case {\f@shape}
+        \scshape
+      }
+  }
 
 % Switch boldface on or off.
-\cs_new:Npn \@handle@boldface {
-	\str_if_eq:NNTF \f@series \bfdefault
-	{
-		\setfseries \@prev@series
-		\str_set:Nx \@prev@series \seriesdefault
-	} {
-		\str_set:Nx \@prev@series \f@series
-		\bfseries
-	}
-}
+\cs_new:Npn \@handle@boldface
+  {
+    \str_if_eq:NNTF {\f@series} {\bfdefault}
+      {
+        \setfseries {\@prev@series}
+        \str_set:Nx \@prev@series {\seriesdefault}
+      }
+      {
+        \str_set:Nx \@prev@series {\f@series}
+        \bfseries
+      }
+  }
 
 
 %% Aliases for expl3
@@ -177,40 +187,45 @@
 \enableeasyformat
 
 % Now finally add the new syntax in the document part.
-\AtBeginDocument{
-	% We do not re-enable easyformat here, since that could
-	% cause unexpected behaviour. We tested if this causes errors.
+\AtBeginDocument
+  {
+    % We do not re-enable easyformat here, since that could
+    % cause unexpected behaviour. We tested if this causes errors.
 
-	% This is where the magic happens (also differentiates between
-	% the text and math mode.)
+    % This is where the magic happens (also differentiates between
+    % the text and math mode.)
 
-	% These are protected because it should work in eg. \section{}
+    % These are protected because it should work in eg. \section{}
 
-	\protected\def_{%
-		\@mode@if@math
-			{\@math@subscript@token}
-			{\@peek@meaning@remove_
-				% The second underscore is removed when detected.
-				{\@handle@boldface}
-				{\@handle@italics}%
-			}%
-	}
+    \protected\def _%
+      {%
+        \@mode@if@math
+          {\@math@subscript@token}
+          {%
+            \@peek@meaning@remove _
+            % The second underscore is removed when detected.
+            {\@handle@boldface}
+            {\@handle@italics}%
+          }%
+      }
 
-	\protected\def^{%
-		\@mode@if@math
-			{\@math@superscript@token}
-			{\@handle@smallcaps}%
-	}
-}
+    \protected\def ^%
+      {%
+        \@mode@if@math
+          {\@math@superscript@token}
+          {\@handle@smallcaps}%
+      }
+  }
 
 
 %% Cleanup aka: Disable the systems!
-\AtEndDocument{
-	% Why no \def_\undefined and \def^\undefined?
-	% Because if we use this syntax in eg. \section{},
-	% the macro should still work in the .aux file...
-	\disableeasyformat
-}
+\AtEndDocument
+  {
+    % Why no \def_\undefined and \def^\undefined?
+    % Because if we use this syntax in eg. \section{},
+    % the macro should still work in the .aux file...
+    \disableeasyformat
+  }
 
 
 %% DONE!

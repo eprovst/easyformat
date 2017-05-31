@@ -20,13 +20,10 @@
 
 
 %% CHANGES SINCE v1.3.0:
-%    Further cleaned up source.
+%    Further cleaned up source and used expl3.
 
 
 %% NOTES TO FUTURE:
-%    Italics correction works because of \maybe@ic,
-%    this macro might become \xfss_maybe_ic: in LaTeX3
-%
 %    In LaTeX3 the `New Font Selection Scheme' is replaced
 %    by xfss (xfont). Moving will require some research.
 
@@ -39,27 +36,27 @@
 \RequirePackage{expl3}[2015/11/11]
 \ProvidesExplPackage
 	{easyformat}
-	{2017/05/30}
-	{1.4.0}
+	{2017/05/31}
+	{1.3.1}
 	{Easily add boldface, italics and smallcaps.}
 
 
 %% Public macros
 % Add macros to switch the syntax on or off.
 \cs_new:Npn \setundact {
-	\char_set_catcode_active:N {\_}
+	\char_set_catcode_active:N \_
 }
 
 \cs_new:Npn \setundsub {
-	\char_set_catcode_math_subscript:N {\_}
+	\char_set_catcode_math_subscript:N \_
 }
 
 \cs_new:Npn \setciract {
-	\char_set_catcode_active:N {\^}
+	\char_set_catcode_active:N \^
 }
 
 \cs_new:Npn \setcirsup {
-	\char_set_catcode_math_superscript:N {\^}
+	\char_set_catcode_math_superscript:N \^
 }
 
 \cs_new:Npn \enableeasyformat {
@@ -74,55 +71,51 @@
 
 % Add macros which change the fontshape, fontseries and fontfamily.
 \cs_new:Npn \setffamily #1 {
-	\fontfamily{#1}
+	\fontfamily #1
 	\selectfont
 }
 
 \cs_new:Npn \setfshape #1 {
-	\fontshape{#1}
+	\fontshape #1
 	\selectfont
 }
 
 \cs_new:Npn \setfseries #1 {
-	\fontseries{#1}
+	\fontseries #1
 	\selectfont
 }
 
 % Add some macros which do small parts of what \normalfont does.
 % Were needed in v1.1.0 but let's keep them because they are useful :)
 \cs_new:Npn \nrfamily {
-	\setffamily {\familydefault}
+	\setffamily \familydefault
 }
 
 \cs_new:Npn \nrshape {
-	\setfshape {\shapedefault}
+	\setfshape \shapedefault
 }
 
 \cs_new:Npn \nrseries {
-	\setfseries {\seriesdefault}
+	\setfseries \seriesdefault
 }
 
 % Add a macro LaTeX should have...
 % Is protected to fix the double superscript error.
-\cs_new_protected:Npn \cir {\char_generate:nn {`^} {12}}
+\cs_new_protected:Npn \cir { \c_circumflex_str }
 
 
 %% Constants & Variables
-% Yes I could use \sb and \sp but those are dependencies...
-\tl_const:Nx \@subscript   {\char_generate:nn {`_} {8}}
-\tl_const:Nx \@superscript {\char_generate:nn {`^} {7}}
-
 % Remember the style before changing to italics/boldface/smallcaps.
 \str_new:N \@prev@shape
-\str_set:Nx \@prev@shape {\shapedefault}
+\str_set:Nx \@prev@shape \shapedefault
 
 \str_new:N \@prev@case
-\str_set:Nx \@prev@case {\shapedefault}
+\str_set:Nx \@prev@case \shapedefault
 % Case is the option used in XFSS, however in LaTeX2e's NFSS,
 % smallcaps is a kind of shape.
 
 \str_new:N \@prev@series
-\str_set:Nx \@prev@series {\seriesdefault}
+\str_set:Nx \@prev@series \seriesdefault
 
 
 %% Formating handling
@@ -130,13 +123,13 @@
 \cs_new:Npn \@handle@italics {
 	\str_if_eq:NNTF \f@shape \itdefault
 	{
-		\setfshape {\@prev@shape}
-		\str_set:Nx \@prev@shape {\shapedefault}
+		\setfshape \@prev@shape
+		\str_set:Nx \@prev@shape \shapedefault
 		% \maybe@ic adds italics correction if needed.
-		% (might stop working in LaTeX3?)
+		% Probably becomes \xfss_maybe_ic: in LaTeX3.
 		\maybe@ic
-	}{
-		\str_set:Nx \@prev@shape {\f@shape}
+	} {
+		\str_set:Nx \@prev@shape \f@shape
 		\itshape
 	}
 }
@@ -145,10 +138,10 @@
 \cs_new:Npn \@handle@smallcaps {
 	\str_if_eq:NNTF \f@shape \scdefault
 	{
-		\setfshape {\@prev@case}
-		\str_set:Nx \@prev@case {\shapedefault}
-	}{
-		\str_set:Nx \@prev@case {\f@shape}
+		\setfshape \@prev@case
+		\str_set:Nx \@prev@case \shapedefault
+	} {
+		\str_set:Nx \@prev@case \f@shape
 		\scshape
 	}
 }
@@ -157,19 +150,23 @@
 \cs_new:Npn \@handle@boldface {
 	\str_if_eq:NNTF \f@series \bfdefault
 	{
-		\setfseries {\@prev@series}
-		\str_set:Nx \@prev@series {\seriesdefault}
-	}{
-		\str_set:Nx \@prev@series {\f@series}
+		\setfseries \@prev@series
+		\str_set:Nx \@prev@series \seriesdefault
+	} {
+		\str_set:Nx \@prev@series \f@series
 		\bfseries
 	}
 }
 
 
-%% Aliases fo expl3
+%% Aliases for expl3
 % Make aliases for some LaTeX3 macros as _ isn't allowed later on.
-\let\@mode@if@math\mode_if_math:TF
-\let\@peek@meaning@remove\peek_meaning_remove:NTF
+\cs_set_eq:NN \@mode@if@math \mode_if_math:TF
+\cs_set_eq:NN \@peek@meaning@remove \peek_meaning_remove:NTF
+
+% Yes I could use \sb and \sp but those might be dodgy...
+\tl_set_eq:NN \@math@subscript@token \c_math_subscript_token
+\tl_set_eq:NN \@math@superscript@token \c_math_superscript_token
 
 
 %% Activate the systems!
@@ -191,8 +188,8 @@
 
 	\protected\def_{%
 		\@mode@if@math
-			{\@subscript}
-			{\@peek@meaning@remove _
+			{\@math@subscript@token}
+			{\@peek@meaning@remove_
 				% The second underscore is removed when detected.
 				{\@handle@boldface}
 				{\@handle@italics}%
@@ -201,7 +198,7 @@
 
 	\protected\def^{%
 		\@mode@if@math
-			{\@superscript}
+			{\@math@superscript@token}
 			{\@handle@smallcaps}%
 	}
 }
@@ -227,3 +224,8 @@
 %      doesn't differentiate between ending itallics or ending
 %      boldface. The current solution does and this makes the syntax
 %      more predictable and generally more useful.
+%
+%% Why no ^^typewriter^^?
+%     because this doesn't add much value, in most contexts
+%     where a monospace font is useful there is already
+%     other syntax available.

@@ -19,24 +19,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%% CHANGES SINCE v1.3.0:
-%    Further cleaned up source and used expl3.
-
-
 %% NOTES TO FUTURE:
 %    In LaTeX3 the `New Font Selection Scheme' is replaced
 %    by xfss (xfont). Moving will require some research.
-
-
-%% WAIT! This package doesn't use the LaTeX3 naming conventions?!
-%      Yeah, since we make _ an active character, we can't. Sorry.
 
 
 %% Administration...
 \RequirePackage{expl3}[2015/11/11]
 \ProvidesExplPackage
   {easyformat}
-  {2017/05/31}
+  {2017/06/01}
   {1.3.1}
   {Easily add boldface, italics and smallcaps.}
 
@@ -57,17 +49,17 @@
 
 \cs_new:Npn \enableeasyformat
   {
-    \setundact
-    \setciract
+    \char_set_catcode_active:N {\_}
+    \char_set_catcode_active:N {\^}
   }
 
 \cs_new:Npn \disableeasyformat
   {
-    \setundsub
-    \setcirsup
+    \char_set_catcode_math_subscript:N {\_}
+    \char_set_catcode_math_superscript:N {\^}
   }
 
-% Add macros which change the fontshape, fontseries and fontfamily.
+% Add macros which change the font shape, font series and font family.
 \cs_new:Npn \setffamily #1
   {
     \fontfamily {#1}
@@ -87,21 +79,15 @@
   }
 
 % Add some macros which do small parts of what \normalfont does.
-% Were needed in v1.1.0 but let's keep them because they are useful :)
+% Were needed in v1.1.0 but let's keep them because they are useful.
 \cs_new:Npn \nrfamily
-  {
-    \setffamily {\familydefault}
-  }
+  { \setffamily {\familydefault} }
 
 \cs_new:Npn \nrshape
-  {
-    \setfshape {\shapedefault}
-  }
+  { \setfshape {\shapedefault} }
 
 \cs_new:Npn \nrseries
-  {
-    \setfseries {\seriesdefault}
-  }
+  { \setfseries {\seriesdefault} }
 
 % Add a macro LaTeX should have...
 % Which is protected to fix the double superscript error.
@@ -110,73 +96,95 @@
 
 %% Variables
 % Remember the style before changing to italics/boldface/smallcaps.
-\str_new:N \@prev@shape
-\str_set:Nx \@prev@shape {\shapedefault}
+\str_new:N \l_prev_shape_str
+\str_set:Nx \l_prev_shape_str {\shapedefault}
 
-\str_new:N \@prev@case
-\str_set:Nx \@prev@case {\shapedefault}
-% Case is the option used in XFSS, however in LaTeX2e's NFSS,
-% smallcaps is a kind of shape.
+% Case is the option used in XFSS, however do note that in
+% LaTeX2e's NFSS, smallcaps is a kind of shape.
+\str_new:N \l_prev_case_str
+\str_set:Nx \l_prev_case_str {\shapedefault}
 
-\str_new:N \@prev@series
-\str_set:Nx \@prev@series {\seriesdefault}
+\str_new:N \l_prev_series_str
+\str_set:Nx \l_prev_series_str {\seriesdefault}
 
 
 %% Formating handling
 % Switch italics on or off.
-\cs_new:Npn \@handle@italics
+\cs_new:Npn \efor_handle_italics
   {
     \str_if_eq:NNTF {\f@shape} {\itdefault}
       {
-        \setfshape {\@prev@shape}
-        \str_set:Nx \@prev@shape {\shapedefault}
+        \setfshape {\l_prev_shape_str}
+        \str_set:Nx \l_prev_shape_str {\shapedefault}
         % \maybe@ic adds italics correction if needed.
         % Probably becomes \xfss_maybe_ic: in LaTeX3.
         \maybe@ic
       }
       {
-        \str_set:Nx \@prev@shape {\f@shape}
+        \str_set:Nx \l_prev_shape_str {\f@shape}
         \itshape
       }
   }
 
 % Switch smallcaps on or off.
-\cs_new:Npn \@handle@smallcaps
+\cs_new:Npn \efor_handle_smallcaps
   {
     \str_if_eq:NNTF {\f@shape} {\scdefault}
       {
-        \setfshape {\@prev@case}
-        \str_set:Nx \@prev@case {\shapedefault}
+        \setfshape {\l_prev_case_str}
+        \str_set:Nx \l_prev_case_str {\shapedefault}
       }
       {
-        \str_set:Nx \@prev@case {\f@shape}
+        \str_set:Nx \l_prev_case_str {\f@shape}
         \scshape
       }
   }
 
 % Switch boldface on or off.
-\cs_new:Npn \@handle@boldface
+\cs_new:Npn \efor_handle_boldface
   {
     \str_if_eq:NNTF {\f@series} {\bfdefault}
       {
-        \setfseries {\@prev@series}
-        \str_set:Nx \@prev@series {\seriesdefault}
+        \setfseries {\l_prev_series_str}
+        \str_set:Nx \l_prev_series_str {\seriesdefault}
       }
       {
-        \str_set:Nx \@prev@series {\f@series}
+        \str_set:Nx \l_prev_series_str {\f@series}
         \bfseries
       }
   }
 
 
-%% Aliases for expl3
-% Make aliases for some LaTeX3 macros as _ isn't allowed later on.
-\cs_set_eq:NN \@mode@if@math \mode_if_math:TF
-\cs_set_eq:NN \@peek@meaning@remove \peek_meaning_remove:NTF
+%% Handling the syntax
+% This is where the magic happens (also differentiates between
+% text- and mathmode.)
 
-% Yes I could use \sb and \sp but those might be dodgy...
-\tl_set_eq:NN \@math@subscript@token \c_math_subscript_token
-\tl_set_eq:NN \@math@superscript@token \c_math_superscript_token
+% These are protected because they should also work in eg. \section{}
+
+% Syntax handling for the underscore: italics and boldface.
+\cs_new_protected:Npn \efor_syntax_underscore
+  {
+    \mode_if_math:TF
+      { \c_math_subscript_token }
+      {
+        \peek_charcode_remove:NTF _
+          % The second underscore is removed when detected.
+          { \efor_handle_boldface }
+          { \efor_handle_italics }
+      }
+  }
+
+% Syntax handling for the circonflex: smallcaps.
+\cs_new_protected:Npn \efor_syntax_circonflex
+  {
+    \mode_if_math:TF
+      { \c_math_superscript_token }
+      { \efor_handle_smallcaps }
+  }
+
+% Now give the underscore and the circonflex their behaviour.
+\char_set_active_eq:NN _ \efor_syntax_underscore
+\char_set_active_eq:NN ^ \efor_syntax_circonflex
 
 
 %% Activate the systems!
@@ -185,37 +193,6 @@
 
 % Now enable the easyformat syntax.
 \enableeasyformat
-
-% Now finally add the new syntax in the document part.
-\AtBeginDocument
-  {
-    % We do not re-enable easyformat here, since that could
-    % cause unexpected behaviour. We tested if this causes errors.
-
-    % This is where the magic happens (also differentiates between
-    % the text and math mode.)
-
-    % These are protected because it should work in eg. \section{}
-
-    \protected\def _%
-      {%
-        \@mode@if@math
-          {\@math@subscript@token}
-          {%
-            \@peek@meaning@remove _
-            % The second underscore is removed when detected.
-            {\@handle@boldface}
-            {\@handle@italics}%
-          }%
-      }
-
-    \protected\def ^%
-      {%
-        \@mode@if@math
-          {\@math@superscript@token}
-          {\@handle@smallcaps}%
-      }
-  }
 
 
 %% Cleanup aka: Disable the systems!
@@ -229,17 +206,17 @@
 
 
 %% DONE!
-% Unfortunately we can't add a \disableeasyformat here,
-% since that breaks more stuff than it fixes...
+% By the way, don't add a \disableeasyformat here
+% as that breaks more stuff than it might fix...
 
 
 %% IMPLEMENTATION DETAILS:
 %% Why not \textit/bf/sc\bgroup and \egroup?
 %      Well actualy that was the original solution. However this
 %      doesn't differentiate between ending itallics or ending
-%      boldface. The current solution does and this makes the syntax
-%      more predictable and generally more useful.
-%
+%      boldface. The current solution does and this makes the
+%      syntax more predictable and generally more useful.
+
 %% Why no ^^typewriter^^?
 %     because this doesn't add much value, in most contexts
 %     where a monospace font is useful there is already

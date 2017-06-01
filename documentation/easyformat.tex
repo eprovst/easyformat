@@ -14,7 +14,7 @@
 \def\labelitemi{--}
 
 \title{\pkg{easyformat}\\[.5em]
-		\large _the_ manual for the 2017/05/31 version (v1.3.1)}
+		\large _the_ manual for the 2017/06/01 version (v1.3.1)}
 
 \author{Evert Provoost}
 
@@ -239,7 +239,7 @@
 	To make * work we would have to make it an active character, however this would break things like |\section*{Art}|. The~|_| is already protected by \TeX\ because of it's meaning in mathmode. However, it has little to no use in textmode. This is why we can use~|_| for this purpose and not~*.
 	
 	\subsection{Does this break mathmode?}
-	No it doesn't. It keeps behaving like before in mathmode, it's meaning only changes in textmode. (We first check whether we are in mathmode or not and behave accordingly.)
+	No it doesn't. |_| and |^| keep behaving like before in mathmode, their meaning only changes in textmode. (We first check whether we are in mathmode or not and then behave accordingly.)
 
 	\section{Contact\label{contact}}
 	If you want to make suggestions or have any questions whose answer could be included in a future version of this document, you can email to this address: \url{mailto:evert.provoost@gmail.com}
@@ -248,8 +248,9 @@
 	\section{Changelog}
 	We only include important changes from v1.0.0 onwards, since earlier versions barely worked.
 
-	\subsection*{2017/05/31 v1.3.1}
-	Further improved code readability and extended usage of \pkg{expl3} capabilities.
+	\subsection*{2017/06/01 v1.3.1}
+	Improved code readability.
+	We now fully use \pkg{expl3}, which eliminates most of the possible future issues with \LaTeX3.
 
 	\subsection*{2017/05/28 v1.3.0}
 	Removed forced re-enabling of the \pkg{easyformat}-syntax at the start of the document.

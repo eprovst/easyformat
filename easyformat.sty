@@ -174,17 +174,17 @@
       }
   }
 
-% Syntax handling for the circonflex: smallcaps.
-\cs_new_protected:Npn \efor_syntax_circonflex
+% Syntax handling for the circumflex: smallcaps.
+\cs_new_protected:Npn \efor_syntax_circumflex
   {
     \mode_if_math:TF
       { \c_math_superscript_token }
       { \efor_handle_smallcaps }
   }
 
-% Now give the underscore and the circonflex their behaviour.
+% Now give the underscore and the circumflex their behaviour.
 \char_set_active_eq:NN _ \efor_syntax_underscore
-\char_set_active_eq:NN ^ \efor_syntax_circonflex
+\char_set_active_eq:NN ^ \efor_syntax_circumflex
 
 
 %% Activate the systems!

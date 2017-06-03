@@ -19,7 +19,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%% NOTES TO FUTURE:
+%% NOTE TO THE FUTURE:
 %    In LaTeX3 the `New Font Selection Scheme' is replaced
 %    by xfss (xfont). Moving will require some research.
 
@@ -28,8 +28,8 @@
 \RequirePackage{expl3}[2016/04/21]
 \ProvidesExplPackage
   {easyformat}
-  {2017/06/01}
-  {1.3.1}
+  {2017/06/03}
+  {1.4.0}
   {Easily add boldface, italics and smallcaps.}
 
 
@@ -90,9 +90,14 @@
   { \setfseries {\seriesdefault} }
 
 % Add a macro LaTeX should have...
-% Which is protected to fix the double superscript error.
-\cs_new_protected:Npn \cir {\c_circumflex_str}
-
+% Which is protected to fix the double superscript error
+% and able to give correct kerning in mathmode.
+\cs_new_protected:Npn \cir
+  {
+    \mode_if_math:TF
+      { \hat{} }
+      { \c_circumflex_str }
+  }
 
 %% Variables
 % Remember the style before changing to italics/boldface/smallcaps.
@@ -158,7 +163,6 @@
 %% Handling the syntax
 % This is where the magic happens (also differentiates between
 % text- and mathmode.)
-
 % These are protected because they should also work in eg. \section{}
 
 % Syntax handling for the underscore: italics and boldface.
@@ -187,27 +191,14 @@
 \char_set_active_eq:NN ^ \efor_syntax_circumflex
 
 
-%% Activate the systems!
+%% Activate the systems.
 % First disable the Expl3 syntax as it will only cause trouble.
 \ExplSyntaxOff
 
 % Now enable the easyformat syntax.
 \enableeasyformat
 
-
-%% Cleanup aka: Disable the systems!
-\AtEndDocument
-  {
-    % Why no \def_\undefined and \def^\undefined?
-    % Because if we use this syntax in eg. \section{},
-    % the macro should still work in the .aux file...
-    \disableeasyformat
-  }
-
-
-%% DONE!
-% By the way, don't add a \disableeasyformat here
-% as that breaks more stuff than it might fix...
+% DONE!!!
 
 
 %% IMPLEMENTATION DETAILS:

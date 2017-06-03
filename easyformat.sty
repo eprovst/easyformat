@@ -21,7 +21,7 @@
 
 %% NOTE TO THE FUTURE:
 %    In LaTeX3 the `New Font Selection Scheme' is replaced
-%    by xfss (xfont). Moving will require some research.
+%    by XFSS (xfont). Moving will require some research.
 
 
 %% Administration...
@@ -101,60 +101,60 @@
 
 %% Variables
 % Remember the style before changing to italics/boldface/smallcaps.
-\str_new:N \l_prev_shape_str
-\str_set:Nx \l_prev_shape_str {\shapedefault}
+\str_new:N \l__prev_shape_str
+\str_set_eq:NN \l__prev_shape_str \shapedefault
 
 % Case is the option used in XFSS, however do note that in
 % LaTeX2e's NFSS, smallcaps is a kind of shape.
-\str_new:N \l_prev_case_str
-\str_set:Nx \l_prev_case_str {\shapedefault}
+\str_new:N \l__prev_case_str
+\str_set_eq:NN \l__prev_case_str \shapedefault
 
-\str_new:N \l_prev_series_str
-\str_set:Nx \l_prev_series_str {\seriesdefault}
+\str_new:N \l__prev_series_str
+\str_set_eq:NN \l__prev_series_str \seriesdefault
 
 
 %% Formating handling
 % Switch italics on or off.
-\cs_new:Npn \efor_handle_italics
+\cs_new:Npn \__handle_italics:
   {
     \str_if_eq:NNTF {\f@shape} {\itdefault}
       {
-        \setfshape {\l_prev_shape_str}
-        \str_set:Nx \l_prev_shape_str {\shapedefault}
+        \setfshape {\l__prev_shape_str}
+        \str_set_eq:NN \l__prev_shape_str \shapedefault
         % \maybe@ic adds italics correction if needed.
         % Probably becomes \xfss_maybe_ic: in LaTeX3.
         \maybe@ic
       }
       {
-        \str_set:Nx \l_prev_shape_str {\f@shape}
+        \str_set_eq:NN \l__prev_shape_str \f@shape
         \itshape
       }
   }
 
 % Switch smallcaps on or off.
-\cs_new:Npn \efor_handle_smallcaps
+\cs_new:Npn \__handle_smallcaps:
   {
     \str_if_eq:NNTF {\f@shape} {\scdefault}
       {
-        \setfshape {\l_prev_case_str}
-        \str_set:Nx \l_prev_case_str {\shapedefault}
+        \setfshape {\l__prev_case_str}
+        \str_set_eq:NN \l__prev_case_str \shapedefault
       }
       {
-        \str_set:Nx \l_prev_case_str {\f@shape}
+        \str_set_eq:NN \l__prev_case_str \f@shape
         \scshape
       }
   }
 
 % Switch boldface on or off.
-\cs_new:Npn \efor_handle_boldface
+\cs_new:Npn \__handle_boldface:
   {
     \str_if_eq:NNTF {\f@series} {\bfdefault}
       {
-        \setfseries {\l_prev_series_str}
-        \str_set:Nx \l_prev_series_str {\seriesdefault}
+        \setfseries {\l__prev_series_str}
+        \str_set_eq:NN \l__prev_series_str \seriesdefault
       }
       {
-        \str_set:Nx \l_prev_series_str {\f@series}
+        \str_set_eq:NN \l__prev_series_str \f@series
         \bfseries
       }
   }
@@ -166,29 +166,29 @@
 % These are protected because they should also work in eg. \section{}
 
 % Syntax handling for the underscore: italics and boldface.
-\cs_new_protected:Npn \efor_syntax_underscore
+\cs_new_protected:Npn \__syntax_underscore:
   {
     \mode_if_math:TF
       { \c_math_subscript_token }
       {
         \peek_charcode_remove:NTF _
           % The second underscore is removed when detected.
-          { \efor_handle_boldface }
-          { \efor_handle_italics }
+          { \__handle_boldface: }
+          { \__handle_italics: }
       }
   }
 
 % Syntax handling for the circumflex: smallcaps.
-\cs_new_protected:Npn \efor_syntax_circumflex
+\cs_new_protected:Npn \__syntax_circumflex:
   {
     \mode_if_math:TF
       { \c_math_superscript_token }
-      { \efor_handle_smallcaps }
+      { \__handle_smallcaps: }
   }
 
 % Now give the underscore and the circumflex their behaviour.
-\char_set_active_eq:NN _ \efor_syntax_underscore
-\char_set_active_eq:NN ^ \efor_syntax_circumflex
+\char_set_active_eq:NN _ \__syntax_underscore:
+\char_set_active_eq:NN ^ \__syntax_circumflex:
 
 
 %% Activate the systems.

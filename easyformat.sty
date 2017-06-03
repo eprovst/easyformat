@@ -35,18 +35,6 @@
 
 %% Public macros
 % Add macros to switch the syntax on or off.
-\cs_new:Npn \setundact
-  { \char_set_catcode_active:N _ }
-
-\cs_new:Npn \setundsub
-  { \char_set_catcode_math_subscript:N _ }
-
-\cs_new:Npn \setciract
-  { \char_set_catcode_active:N ^ }
-
-\cs_new:Npn \setcirsup
-  { \char_set_catcode_math_superscript:N ^ }
-
 \cs_new:Npn \enableeasyformat
   {
     \char_set_catcode_active:N _
@@ -59,36 +47,6 @@
     \char_set_catcode_math_superscript:N ^
   }
 
-% Add macros which change the font shape, font series and font family.
-\cs_new:Npn \setffamily #1
-  {
-    \fontfamily {#1}
-    \selectfont
-  }
-
-\cs_new:Npn \setfshape #1
-  {
-    \fontshape {#1}
-    \selectfont
-  }
-
-\cs_new:Npn \setfseries #1
-  {
-    \fontseries {#1}
-    \selectfont
-  }
-
-% Add some macros which do small parts of what \normalfont does.
-% Were needed in v1.1.0 but let's keep them because they are useful.
-\cs_new:Npn \nrfamily
-  { \setffamily {\familydefault} }
-
-\cs_new:Npn \nrshape
-  { \setfshape {\shapedefault} }
-
-\cs_new:Npn \nrseries
-  { \setfseries {\seriesdefault} }
-
 % Add a macro LaTeX should have...
 % Which is protected to fix the double superscript error
 % and able to give correct kerning in mathmode.
@@ -98,6 +56,7 @@
       { \hat{} }
       { \c_circumflex_str }
   }
+
 
 %% Variables
 % Remember the style before changing to italics/boldface/smallcaps.
@@ -114,12 +73,25 @@
 
 
 %% Formating handling
+% Add macros which change the font shape and font series.
+\cs_new:Npn \__font_set_shape:n #1
+{
+	\fontshape {#1}
+	\selectfont
+}
+
+\cs_new:Npn \__font_set_series:n #1
+{
+	\fontseries {#1}
+	\selectfont
+}
+
 % Switch italics on or off.
 \cs_new:Npn \__handle_italics:
   {
     \str_if_eq:NNTF \f@shape \itdefault
       {
-        \setfshape {\l__prev_shape_str}
+        \__font_set_shape:n {\l__prev_shape_str}
         \str_set_eq:NN \l__prev_shape_str \shapedefault
         % \maybe@ic adds italics correction if needed.
         % Probably becomes \xfss_maybe_ic: in LaTeX3.
@@ -136,7 +108,7 @@
   {
     \str_if_eq:NNTF \f@shape \scdefault
       {
-        \setfshape {\l__prev_case_str}
+        \__font_set_shape:n {\l__prev_case_str}
         \str_set_eq:NN \l__prev_case_str \shapedefault
       }
       {
@@ -150,7 +122,7 @@
   {
     \str_if_eq:NNTF \f@series \bfdefault
       {
-        \setfseries {\l__prev_series_str}
+        \__font_set_series:n {\l__prev_series_str}
         \str_set_eq:NN \l__prev_series_str \seriesdefault
       }
       {

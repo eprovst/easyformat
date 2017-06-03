@@ -139,6 +139,8 @@
 	
 	%This first resets the |_| character so it can only be used as the start of subscripts; then adds the subtitle and afterwards re-initiates |_| for __bold__ and _italic_. (Obviously the \pkg{easyformat}-syntax does not work _in_ the subtitle, so you'll have to use the \LaTeX-commands.)
 	
+	\newpage
+	
 	\section{Macros}
 	\subsection{Special characters}
 	\begin{function}{\cir}
@@ -148,48 +150,54 @@
 		Insert a circumflex (\cir) character.
 	\end{function}
 
-	\subsection{Fonts}
-	\begin{function}{\nrfamily}
-		\begin{syntax}
-			\cs{nrfamily}
-		\end{syntax}
-		Reverts the font family to the default.
-	\end{function}
+	%%\subsection{Fonts}
+	% Removed in v1.4.0
+	%\begin{function}{\nrfamily}
+	%	\begin{syntax}
+	%		\cs{nrfamily}
+	%	\end{syntax}
+	%	Reverts the font family to the default.
+	%\end{function}
 
-	\begin{function}{\nrshape}
-		\begin{syntax}
-			\cs{nrshape}
-		\end{syntax}
-		Reverts the font shape to the default.
-	\end{function}
+	% Removed in v1.4.0
+	%\begin{function}{\nrshape}
+	%	\begin{syntax}
+	%		\cs{nrshape}
+	%	\end{syntax}
+	%	Reverts the font shape to the default.
+	%\end{function}
 
-	\begin{function}{\nrseries}
-		\begin{syntax}
-			\cs{nrseries}
-		\end{syntax}
-		Reverts the font series to the default.
-	\end{function}
+	% Removed in v1.4.0
+	%\begin{function}{\nrseries}
+	%	\begin{syntax}
+	%		\cs{nrseries}
+	%	\end{syntax}
+	%	Reverts the font series to the default.
+	%\end{function}
 
-	\begin{function}{\setffamily}
-		\begin{syntax}
-			\cs{setffamily} \Arg{font family}
-		\end{syntax}
-		Quickly change the font family.
-	\end{function}
+	% Removed in v1.4.0
+	%\begin{function}{\setffamily}
+	%	\begin{syntax}
+	%		\cs{setffamily} \Arg{font family}
+	%	\end{syntax}
+	%	Quickly change the font family.
+	%\end{function}
 
-	\begin{function}{\setfshape}
-		\begin{syntax}
-			\cs{setfshape} \Arg{font shape}
-		\end{syntax}
-		Quickly change the font shape.
-	\end{function}
+	% Removed in v1.4.0
+	%\begin{function}{\setfshape}
+	%	\begin{syntax}
+	%		\cs{setfshape} \Arg{font shape}
+	%	\end{syntax}
+	%	Quickly change the font shape.
+	%\end{function}
 
-	\begin{function}{\setfseries}
-		\begin{syntax}
-			\cs{setfseries} \Arg{font series}
-		\end{syntax}
-		Quickly change the font series.
-	\end{function}
+	% Removed in v1.4.0
+	%\begin{function}{\setfseries}
+	%	\begin{syntax}
+	%		\cs{setfseries} \Arg{font series}
+	%	\end{syntax}
+	%	Quickly change the font series.
+	%\end{function}
 	
 	\subsection{\pkg{easyformat}-syntax}
 	\begin{function}{\enableeasyformat}
@@ -206,33 +214,37 @@
 		Disables the \pkg{easyformat}-syntax.
 	\end{function}
 	
-	\begin{function}{\setciract}
-		\begin{syntax}
-			\cs{setciract}
-		\end{syntax}
-		Sets the catcode of |^| to 13 (active).
-	\end{function}
+	% Removed in v1.4.0
+	%\begin{function}{\setciract}
+	%	\begin{syntax}
+	%		\cs{setciract}
+	%	\end{syntax}
+	%	Sets the catcode of |^| to 13 (active).
+	%\end{function}
 
-	\begin{function}{\setcirsup}
-		\begin{syntax}
-			\cs{setcirsup}
-		\end{syntax}
-		Sets the catcode of |^| to 7 (superscript).
-	\end{function}
+	% Removed in v1.4.0
+	%\begin{function}{\setcirsup}
+	%	\begin{syntax}
+	%		\cs{setcirsup}
+	%	\end{syntax}
+	%	Sets the catcode of |^| to 7 (superscript).
+	%\end{function}
 
-	\begin{function}{\setundact}
-		\begin{syntax}
-			\cs{setundact}
-		\end{syntax}
-		Sets the catcode of |_| to 13 (active).
-	\end{function}
+	% Removed in v1.4.0
+	%\begin{function}{\setundact}
+	%	\begin{syntax}
+	%		\cs{setundact}
+	%	\end{syntax}
+	%	Sets the catcode of |_| to 13 (active).
+	%\end{function}
 
-	\begin{function}{\setundsub}
-		\begin{syntax}
-			\cs{setundsub}
-		\end{syntax}
-		Sets the catcode of |_| to 8 (subscript).
-	\end{function}
+	% Removed in v1.4.0
+	%\begin{function}{\setundsub}
+	%	\begin{syntax}
+	%		\cs{setundsub}
+	%	\end{syntax}
+	%	Sets the catcode of |_| to 8 (subscript).
+	%\end{function}
 
 	\section{Technical details}
 	\subsection{Why \texttt{\_} and not *?\label{Why?!}}
@@ -252,6 +264,7 @@
 	Improved code readability.
 	We now fully use \pkg{expl3}, which eliminates most of the possible future issues with \LaTeX3.
 	Fixed a kerning issue with |\cir| in mathmode.
+	Removed: |\setundact|, |\setundsub|, |\setciract|, |\setcirsup|, |\nrfamily|, |\nrshape|, |\nrseries|, |\setffamily|, |\setfshape| and |\setfseries| as these do not add any value to the package.
 
 	\subsection*{2017/05/28 v1.3.0}
 	Removed forced re-enabling of the \pkg{easyformat}-syntax at the start of the document.

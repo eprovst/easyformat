@@ -36,27 +36,27 @@
 %% Public macros
 % Add macros to switch the syntax on or off.
 \cs_new:Npn \setundact
-  { \char_set_catcode_active:N {\_} }
+  { \char_set_catcode_active:N _ }
 
 \cs_new:Npn \setundsub
-  { \char_set_catcode_math_subscript:N {\_} }
+  { \char_set_catcode_math_subscript:N _ }
 
 \cs_new:Npn \setciract
-  { \char_set_catcode_active:N {\^} }
+  { \char_set_catcode_active:N ^ }
 
 \cs_new:Npn \setcirsup
-  { \char_set_catcode_math_superscript:N {\^} }
+  { \char_set_catcode_math_superscript:N ^ }
 
 \cs_new:Npn \enableeasyformat
   {
-    \char_set_catcode_active:N {\_}
-    \char_set_catcode_active:N {\^}
+    \char_set_catcode_active:N _
+    \char_set_catcode_active:N ^
   }
 
 \cs_new:Npn \disableeasyformat
   {
-    \char_set_catcode_math_subscript:N {\_}
-    \char_set_catcode_math_superscript:N {\^}
+    \char_set_catcode_math_subscript:N _
+    \char_set_catcode_math_superscript:N ^
   }
 
 % Add macros which change the font shape, font series and font family.
@@ -104,9 +104,9 @@
 \str_new:N \l__prev_shape_str
 \str_set_eq:NN \l__prev_shape_str \shapedefault
 
+\str_new:N \l__prev_case_str
 % Case is the option used in XFSS, however do note that in
 % LaTeX2e's NFSS, smallcaps is a kind of shape.
-\str_new:N \l__prev_case_str
 \str_set_eq:NN \l__prev_case_str \shapedefault
 
 \str_new:N \l__prev_series_str
@@ -117,7 +117,7 @@
 % Switch italics on or off.
 \cs_new:Npn \__handle_italics:
   {
-    \str_if_eq:NNTF {\f@shape} {\itdefault}
+    \str_if_eq:NNTF \f@shape \itdefault
       {
         \setfshape {\l__prev_shape_str}
         \str_set_eq:NN \l__prev_shape_str \shapedefault
@@ -134,7 +134,7 @@
 % Switch smallcaps on or off.
 \cs_new:Npn \__handle_smallcaps:
   {
-    \str_if_eq:NNTF {\f@shape} {\scdefault}
+    \str_if_eq:NNTF \f@shape \scdefault
       {
         \setfshape {\l__prev_case_str}
         \str_set_eq:NN \l__prev_case_str \shapedefault
@@ -148,7 +148,7 @@
 % Switch boldface on or off.
 \cs_new:Npn \__handle_boldface:
   {
-    \str_if_eq:NNTF {\f@series} {\bfdefault}
+    \str_if_eq:NNTF \f@series \bfdefault
       {
         \setfseries {\l__prev_series_str}
         \str_set_eq:NN \l__prev_series_str \seriesdefault

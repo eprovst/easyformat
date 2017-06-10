@@ -8,7 +8,7 @@ Usage:
 Import the package with: \usepackage{easyformat}
 
 Now you can do the following in textmode:  
-\_italics_, \__bold\__, _\__bolditalic___ and ^smallcaps^.
+\_italics_, \_\_bold\_\_, \_\_\_bolditalic\_\_\_ and ^smallcaps^.
 
 The underscore's (_) and circumflex's (^) meaning in
 mathmode stay the same.
@@ -18,4 +18,4 @@ mathmode stay the same.
 
 A package by Evert Provoost, licensed under GPLv3.
 
-Made with <\3 in Berlaar, Belgium.
+Made with <3 in Berlaar, Belgium.

@@ -145,7 +145,7 @@
 	
 	\section{Macros}
 	\subsection{Special characters}
-	\begin{function}{\cir}
+	\begin{function}[updated=v1.4.0]{\cir}
 		\begin{syntax}
 			\cs{cir}
 		\end{syntax}
@@ -154,98 +154,43 @@
 
 	%%\subsection{Fonts}
 	% Removed in v1.4.0
-	%\begin{function}{\nrfamily}
+	%\begin{function}[updated=2017-06-03]{\nrfamily, \nrshape, \nrseries}
 	%	\begin{syntax}
 	%		\cs{nrfamily}
 	%	\end{syntax}
-	%	Reverts the font family to the default.
+	%	Reverts the font family, shape or series to the default.
 	%\end{function}
 
 	% Removed in v1.4.0
-	%\begin{function}{\nrshape}
-	%	\begin{syntax}
-	%		\cs{nrshape}
-	%	\end{syntax}
-	%	Reverts the font shape to the default.
-	%\end{function}
-
-	% Removed in v1.4.0
-	%\begin{function}{\nrseries}
-	%	\begin{syntax}
-	%		\cs{nrseries}
-	%	\end{syntax}
-	%	Reverts the font series to the default.
-	%\end{function}
-
-	% Removed in v1.4.0
-	%\begin{function}{\setffamily}
+	%\begin{function}[updated=2017-06-03]{\setffamily, \setfshape, \setfseries}
 	%	\begin{syntax}
 	%		\cs{setffamily} \Arg{font family}
 	%	\end{syntax}
-	%	Quickly change the font family.
+	%	Quickly change the font family, shape or series.
 	%\end{function}
 
-	% Removed in v1.4.0
-	%\begin{function}{\setfshape}
-	%	\begin{syntax}
-	%		\cs{setfshape} \Arg{font shape}
-	%	\end{syntax}
-	%	Quickly change the font shape.
-	%\end{function}
-
-	% Removed in v1.4.0
-	%\begin{function}{\setfseries}
-	%	\begin{syntax}
-	%		\cs{setfseries} \Arg{font series}
-	%	\end{syntax}
-	%	Quickly change the font series.
-	%\end{function}
-	
 	\subsection{\pkg{easyformat}-syntax}
-	\begin{function}{\enableeasyformat}
+	\begin{function}{\enableeasyformat, \disableeasyformat}
 		\begin{syntax}
 			\cs{enableeasyformat}
 		\end{syntax}
-		Enables the \pkg{easyformat}-syntax.
-	\end{function}
-	
-	\begin{function}{\disableeasyformat}
-		\begin{syntax}
-			\cs{disableeasyformat}
-		\end{syntax}
-		Disables the \pkg{easyformat}-syntax.
+		Enables respectively disables the \pkg{easyformat}-syntax.
 	\end{function}
 	
 	% Removed in v1.4.0
-	%\begin{function}{\setciract}
+	%\begin{function}[updated=2017-06-03]{\setciract, \setcirsup}
 	%	\begin{syntax}
 	%		\cs{setciract}
 	%	\end{syntax}
-	%	Sets the catcode of |^| to 13 (active).
+	%	Sets the catcode of |^| to respectively 13 (active) or 7 (superscript).
 	%\end{function}
 
 	% Removed in v1.4.0
-	%\begin{function}{\setcirsup}
-	%	\begin{syntax}
-	%		\cs{setcirsup}
-	%	\end{syntax}
-	%	Sets the catcode of |^| to 7 (superscript).
-	%\end{function}
-
-	% Removed in v1.4.0
-	%\begin{function}{\setundact}
+	%\begin{function}[updated=2017-06-03]{\setundact, \setundsub}
 	%	\begin{syntax}
 	%		\cs{setundact}
 	%	\end{syntax}
-	%	Sets the catcode of |_| to 13 (active).
-	%\end{function}
-
-	% Removed in v1.4.0
-	%\begin{function}{\setundsub}
-	%	\begin{syntax}
-	%		\cs{setundsub}
-	%	\end{syntax}
-	%	Sets the catcode of |_| to 8 (subscript).
+	%	Sets the catcode of |_| to respectively 13 (active) or 8 (subscript).
 	%\end{function}
 
 	\section{Technical details}

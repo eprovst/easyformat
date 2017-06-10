@@ -1,11 +1,14 @@
-easyformat is a package that allows the use of _ (the underscore)
+easyformat
+==========
+
+is a package that allows the use of _ (the underscore)
 to add italics and bold text and ^ (the circumflex) to add smallcaps.
 
-Usage:
+Usage:  
 Import the package with: \usepackage{easyformat}
 
-Now you can do the following in textmode:
-_italics_, __bold__, ___bolditalic___ and ^smallcaps^.
+Now you can do the following in textmode:  
+\_italics_, \__bold\__, _\__bolditalic___ and ^smallcaps^.
 
 The underscore's (_) and circumflex's (^) meaning in
 mathmode stay the same.
@@ -15,4 +18,4 @@ mathmode stay the same.
 
 A package by Evert Provoost, licensed under GPLv3.
 
-Made with <3 in Berlaar, Belgium.
+Made with <\3 in Berlaar, Belgium.

@@ -18,4 +18,4 @@ mathmode stay the same.
 
 <br>A package by Evert Provoost, licensed under GPLv3.
 
-Made with <3 in Berlaar, Belgium.
+Made with :heart: in Berlaar, Belgium.

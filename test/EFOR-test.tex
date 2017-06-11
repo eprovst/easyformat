@@ -1,12 +1,9 @@
 % !TeX spellcheck = en_GB
 \documentclass[11pt]{article}
-\usepackage[british]{babel}
 \usepackage[OT1]{fontenc}
-\usepackage{amsmath}
-\usepackage[hidelinks]{hyperref}
-\usepackage{microtype}
+\usepackage[british]{babel}
 \usepackage{../easyformat}
-\usepackage[a4paper]{geometry}
+\usepackage{a4wide, amsmath}
 
 \def\labelitemi{--}
 
@@ -15,13 +12,7 @@
 \author{Evert Provoost}
 \date{3rd June 2017 (v1.4.0)}
 
-\disableeasyformat % To test correct placement of \enableeasyformat in the source.
-				   % Not necessary.
-
 \begin{document}
-
-	\enableeasyformat % We disabled it earlier to test so now we re-enable it.
-					  % It should still work without the disabling and this.
 
 	\maketitle
 	\tableofcontents
@@ -43,6 +34,6 @@
 	
 	\section{Mixing _styles_}
 	^Yeah, _yeah?,_ yeah!!!^
-	$\leftarrow$ notice how we go from ^smallcaps^ to _italics_ and back to ^smallcaps^? This is possible since v1.2.0~(2017/04/17).
+	$\leftarrow$ do you notice how we go from ^smallcaps^ to _italics_ and back to ^smallcaps^? This is possible since v1.2.0~(2017/04/17).
 
 \end{document}

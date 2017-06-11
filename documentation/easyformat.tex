@@ -31,15 +31,8 @@
 	\end{abstract}
 
 	\tableofcontents
-	\newpage
-	
-	%% NOT NEEDED.
-	% Insert a blank page.
-	%\null % The page has to contain 'something'.
-	%\thispagestyle{empty} % Hide the pagenumber.
-	%\addtocounter{page}{-1} % So the next doesn't turn 3.
-	%\newpage
-	
+
+
 	\section{Introduction}
 	Usually when you want to make something _italic_ or __bold__ in \LaTeX\ you insert |\textit{italic}| or |\textbf{bold}| respectively.
 	
@@ -81,7 +74,8 @@
 	\begin{quote}
 		^nasa^ and ^esa^ are probably the best known space agencies.
 	\end{quote}
-	
+
+
 	\section{Usage, syntax and examples}
 	Like usual you import the package with: |\usepackage{easyformat}|
 
@@ -114,9 +108,10 @@
 	\end{quote}
 
 	Those with a good eye might have noticed that \pkg{easyformat} adds italics correction when needed. Just like |\textit{zet}tim| would have.
-	
+
+
 	\section{Troubleshooting}
-	\pkg{easyformat} tends to conflict with the loading of other packages, therefore you should probably load \pkg{easyformat} last.
+	\pkg{easyformat} sometimes conflicts with the loading of other packages (eg. \pkg{babel}, \pkg{fontspec} and \pkg{microtype}). This is fixed by importing \pkg{easyformat} after those packages.
 	
 	\begin{quotation}
 		``For some or other reason I get some weird formatting\dots''
@@ -140,9 +135,8 @@
 	%\end{quote}
 	
 	%This first resets the |_| character so it can only be used as the start of subscripts; then adds the subtitle and afterwards re-initiates |_| for __bold__ and _italic_. (Obviously the \pkg{easyformat}-syntax does not work _in_ the subtitle, so you'll have to use the \LaTeX-commands.)
-	
-	\newpage
-	
+
+
 	\section{Macros}
 	\subsection{Special characters}
 	\begin{function}[updated=v1.4.0]{\cir}
@@ -193,6 +187,7 @@
 	%	Sets the catcode of |_| to respectively 13 (active) or 8 (subscript).
 	%\end{function}
 
+
 	\section{Technical details}
 	\subsection{Why \texttt{\_} and not *?\label{Why?!}}
 	To make * work we would have to make it an active character, however this would break things like |\section*{Art}|. The~|_| is already protected by \TeX\ because of it's meaning in mathmode. However, it has little to no use in textmode. This is why we can use~|_| for this purpose and not~*.
@@ -200,10 +195,7 @@
 	\subsection{Does this break mathmode?}
 	No it doesn't. |_| and |^| keep behaving like before in mathmode, their meaning only changes in textmode. (We first check whether we are in mathmode or not and then behave accordingly.)
 
-	\section{Contact\label{contact}}
-	If you want to make suggestions or have any questions whose answer could be included in a future version of this document, you can email to this address: \url{mailto:evert.provoost@gmail.com}
-	\newpage
-	
+
 	\section{Changelog}
 	We only include important changes from v1.0.0 onwards, since earlier versions barely worked.
 
@@ -227,7 +219,11 @@
 	Made usage of syntax in |\section{}|, and similar macros, possible. Changed the behaviour so it works more like |\emph{}| (this also simplifies the code).
 
 	\subsection*{2017/04/07 v1.0.0}
-	First stable version.
+	First stable version. It made ___bold-italics___ possible.
+
+
+	\section{Contact\label{contact}}
+	If you want to make suggestions or have any questions whose answer could be included in a future version of this document, you can email to this address: \url{mailto:evert.provoost@gmail.com}
 
 	% Insert a friendly message :)
 	\vspace*{\fill}\noindent

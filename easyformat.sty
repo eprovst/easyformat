@@ -28,8 +28,8 @@
 \RequirePackage{expl3}[2016/04/21]
 \ProvidesExplPackage
   {easyformat}
-  {2017/06/03}
-  {1.4.0}
+  {2017/06/23}
+  {1.5.0}
   {Easily add boldface, italics and smallcaps.}
 
 
@@ -99,6 +99,10 @@
       }
       {
         \str_set_eq:NN \l__prev_shape_str \f@shape
+        % \maybe@ic adds italics correction if needed.
+        % Which fails if we were to be in vertical mode.
+        \mode_if_vertical:F
+          { \maybe@ic }
         \itshape
       }
   }

@@ -28,7 +28,7 @@
 \RequirePackage{expl3}[2016/04/21]
 \ProvidesExplPackage
   {easyformat}
-  {2017/06/23}
+  {2017/07/14}
   {1.5.0}
   {Easily add boldface, italics and smallcaps.}
 
@@ -87,7 +87,7 @@
   }
 
 % Switch italics on or off.
-\cs_new:Npn \__handle_italics:
+\cs_new:Npn \__switch_italics:
   {
     \str_if_eq:NNTF \f@shape \itdefault
       {
@@ -108,7 +108,7 @@
   }
 
 % Switch smallcaps on or off.
-\cs_new:Npn \__handle_smallcaps:
+\cs_new:Npn \__switch_smallcaps:
   {
     \str_if_eq:NNTF \f@shape \scdefault
       {
@@ -122,7 +122,7 @@
   }
 
 % Switch boldface on or off.
-\cs_new:Npn \__handle_boldface:
+\cs_new:Npn \__switch_boldface:
   {
     \str_if_eq:NNTF \f@series \bfdefault
       {
@@ -142,29 +142,29 @@
 % These are protected because they should also work in eg. \section{}
 
 % Syntax handling for the underscore: italics and boldface.
-\cs_new_protected:Npn \__syntax_underscore:
+\cs_new_protected:Npn \__syntax_handler_underscore:w
   {
     \mode_if_math:TF
       { \c_math_subscript_token }
       {
         \peek_charcode_remove:NTF _
           % The second underscore is removed when detected.
-          { \__handle_boldface: }
-          { \__handle_italics: }
+          { \__switch_boldface: }
+          { \__switch_italics: }
       }
   }
 
 % Syntax handling for the circumflex: smallcaps.
-\cs_new_protected:Npn \__syntax_circumflex:
+\cs_new_protected:Npn \__syntax_handler_circumflex:w
   {
     \mode_if_math:TF
       { \c_math_superscript_token }
-      { \__handle_smallcaps: }
+      { \__switch_smallcaps: }
   }
 
 % Now give the underscore and the circumflex their behaviour.
-\char_set_active_eq:NN _ \__syntax_underscore:
-\char_set_active_eq:NN ^ \__syntax_circumflex:
+\char_set_active_eq:NN _ \__syntax_handler_underscore:w
+\char_set_active_eq:NN ^ \__syntax_handler_circumflex:w
 
 
 %% Activate the systems.

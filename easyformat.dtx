@@ -1,6 +1,5 @@
-%<@@=easyformat>
-%
 % \iffalse meta-comment
+%<@@=easyformat>
 %
 % % easyformat.dtx
 % % Copyright (C) 2017 Evert Provoost <evert.provoost@gmail.com>
@@ -21,10 +20,13 @@
 % and the derived file easyformat.sty.
 %
 %<*driver>
+
 \documentclass[11pt, cm-default]{l3doc}
+
 % 11pt and keep on using the Computer Modern.
 \usepackage[OT1]{fontenc}
 % OT1 otherwise we still get Latin Modern.
+
 % We want to maintain the original look of
 % our documentation so away with the coloured
 % links and references as wel ↓↓↓
@@ -43,6 +45,7 @@
 \begin{document}
   \DocInput{\jobname.dtx}
 \end{document}
+
 %</driver>
 % \fi
 %
@@ -162,13 +165,14 @@
 % of how \pkg{easyformat} works you can get weird results.
 %
 %
-%^^A __Explanation:__ when you start eg. _italics_ with |_|, \pkg{easyformat} remembers
-%^^A the shape (the same is true for ^smallcaps^, when you start __boldface__ it
-%^^A remembers the series) of the font. When you get out of _italics_, it resets the
-%^^A shape (respectively the series) to what it was before the starting the formatting.
-%
-%
 % \iffalse meta-comment
+%
+% __Explanation:__ when you start eg. _italics_ with |_|, \pkg{easyformat} remembers
+% the shape (the same is true for ^smallcaps^, when you start __boldface__ it
+% remembers the series) of the font. When you get out of _italics_, it resets the
+% shape (respectively the series) to what it was before the starting the formatting.
+%
+%
 % %% This is solved in version 2017/04/09 v1.1.0
 % \subsection{Underscore in subtitles\label{undtitles}}
 % If you ever try something similar to |\section{__Vectors:__ $\vec{F}_g$}|:
@@ -187,6 +191,7 @@
 % subscripts; then adds the subtitle and afterwards re-initiates |_| for __bold__ and
 % _italic_. (Obviously the \pkg{easyformat}-syntax does not work _in_ the subtitle, so
 % you'll have to use the \LaTeX-commands.)
+%
 % \fi
 %
 %
@@ -282,13 +287,13 @@
 
 % Public macros
 % Add macros to switch the syntax on or off.
-\cs_new:Npn \enableeasyformat
+\cs_new_nopar:Npn \enableeasyformat
   {
     \char_set_catcode_active:N _
     \char_set_catcode_active:N ^
   }
 
-\cs_new:Npn \disableeasyformat
+\cs_new_nopar:Npn \disableeasyformat
   {
     \char_set_catcode_math_subscript:N _
     \char_set_catcode_math_superscript:N ^
@@ -297,7 +302,7 @@
 % Add a macro LaTeX maybe should have...
 % Which is protected to fix the double superscript error
 % and able to give correct kerning in mathmode.
-\cs_new_protected:Npn \cir
+\cs_new_protected_nopar:Npn \cir
   {
     \mode_if_math:TF
       { \hat{} }
@@ -332,7 +337,7 @@
   }
 
 % Switch italics on or off.
-\cs_new:Npn \@@_switch_italics:
+\cs_new_nopar:Npn \@@_switch_italics:
   {
     \str_if_eq:NNTF \f@shape \itdefault
       {
@@ -353,7 +358,7 @@
   }
 
 % Switch smallcaps on or off.
-\cs_new:Npn \@@_switch_smallcaps:
+\cs_new_nopar:Npn \@@_switch_smallcaps:
   {
     \str_if_eq:NNTF \f@shape \scdefault
       {
@@ -367,7 +372,7 @@
   }
 
 % Switch boldface on or off.
-\cs_new:Npn \@@_switch_boldface:
+\cs_new_nopar:Npn \@@_switch_boldface:
   {
     \str_if_eq:NNTF \f@series \bfdefault
       {
@@ -387,7 +392,7 @@
 % These are protected because they should also work in eg. \section{}
 
 % Syntax handling for the underscore: italics and boldface.
-\cs_new_protected:Npn \@@_syntax_handler_underscore:w
+\cs_new_protected_nopar:Npn \@@_syntax_handler_underscore:w
   {
     \mode_if_math:TF
       { \c_math_subscript_token }
@@ -400,7 +405,7 @@
   }
 
 % Syntax handling for the circumflex: smallcaps.
-\cs_new_protected:Npn \@@_syntax_handler_circumflex:w
+\cs_new_protected_nopar:Npn \@@_syntax_handler_circumflex:w
   {
     \mode_if_math:TF
       { \c_math_superscript_token }
@@ -417,22 +422,22 @@
 
 % Now enable the easyformat syntax.
 \enableeasyformat
+%     \end{macrocode}
+% \end{implementation}
 
 
 % NOTES:
-% Why not \textit/bf/sc\bgroup and \egroup?
+% Why not |\textit/bf/sc\bgroup| and |\egroup|?
 %      Well actualy that was the original solution. However this
 %      doesn't differentiate between ending itallics or ending
 %      boldface. The current solution does and this makes the
 %      syntax more predictable and generally more useful.
 
-% Why no ^^typewriter^^?
+% Why no |^^typewriter^^|?
 %     because this doesn't add much value, in most contexts
 %     where a monospace font is useful there is already
 %     other syntax available.
-%    \end{macrocode}
 %
-% \end{implementation}
 %
 %
 % \section{Changelog}
@@ -440,7 +445,9 @@
 % barely worked.
 %
 % \subsection*{2017/07/14 v1.5.0}
-% Fixed italics-correction in front of text.
+% Fixed italics-correction infront of text. Changed license from GPLv3 to LPPL.
+% Improved documentation, switched to DTX. Some small tweaks to make \pkg{easyformat}
+% safer to use.
 %
 % \subsection*{2017/06/03 v1.4.0}
 % Improved code readability.
